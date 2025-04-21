@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UE Modeler</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/monokai.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1>UE Modeler</h1>
+      <p>A web-based tool for modeling and generating Markdown tables</p>
+    </header>
+
+    <main>
+      <div class="editor-section">
+        <h2>JSON Model</h2>
+        <textarea id="jsonEditor"></textarea>
+      </div>
+
+      <div class="preview-section">
+        <h2>Markdown Preview</h2>
+        <div id="markdownPreview"></div>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script type="module" src="ui.js"></script>
+</body>
+
+</html>
