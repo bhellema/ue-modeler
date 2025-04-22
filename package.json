@@ -8,6 +8,7 @@
     "start": "npx http-server dist -o -c-1",
     "dev": "webpack serve --mode development",
     "build": "webpack --mode production",
+    "postbuild": "mkdir -p site && cp -r dist/* site/",
     "test": "mocha test/**/*.test.js"
   },
   "dependencies": {
