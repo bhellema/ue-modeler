@@ -19,8 +19,24 @@ const modelData = {
   'block-with-classes': blockWithClassesJson
 };
 
+// Handle description container collapse
+const descriptionContainer = document.querySelector('.description-container');
+const collapseButton = document.querySelector('.collapse-button');
+
+function toggleDescription() {
+  descriptionContainer.classList.toggle('collapsed');
+}
+
+descriptionContainer.addEventListener('click', toggleDescription);
+descriptionContainer.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    toggleDescription();
+  }
+});
+
 // Set initial content to hero model
-editor.setValue(JSON.stringify(blockJson, null, 2));
+editor.setValue(JSON.stringify(heroJson, null, 2));
 
 // dynamically add a button for each model
 Object.keys(modelData).forEach(model => {

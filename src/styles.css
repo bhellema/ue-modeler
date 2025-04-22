@@ -221,3 +221,106 @@ h2::before {
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
+
+.description-container {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: white;
+  padding: 2rem 0;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-md);
+  position: relative;
+  transition: all 0.3s ease-in-out;
+  min-height: 30px;
+  cursor: pointer;
+}
+
+.description-container:focus {
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 2px;
+}
+
+.description-container.collapsed {
+  padding: 1rem 0;
+  margin-bottom: 1rem;
+}
+
+.description-container.collapsed .description-content {
+  display: none;
+}
+
+.description-container.collapsed .collapse-icon {
+  transform: rotate(180deg);
+}
+
+.collapse-button {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  pointer-events: none;
+}
+
+.collapse-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.collapse-icon {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.description-content {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 3rem 0 2rem;
+  text-align: center;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.description-content h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.description-content p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto;
+  opacity: 0.9;
+}
+
+.description-content h2::before {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .description-container {
+    padding: 1.5rem 0;
+  }
+
+  .description-content {
+    padding: 0 1rem;
+  }
+
+  .description-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .description-content p {
+    font-size: 1rem;
+  }
+}
