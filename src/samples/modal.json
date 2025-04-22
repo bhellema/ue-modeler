@@ -1,0 +1,17 @@
+[
+  {
+    "id": "modal",
+    "fields": [
+      {
+        "component": "aem-content",
+        "name": "link",
+        "value": "https://www.adobe.com"
+      },
+      {
+        "component": "text",
+        "name": "linkText",
+        "value": "Adobe"
+      }
+    ]
+  }
+]

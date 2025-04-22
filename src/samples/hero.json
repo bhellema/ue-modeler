@@ -1,0 +1,22 @@
+[
+  {
+    "id": "hero",
+    "fields": [
+      {
+        "component": "reference",
+        "name": "image",
+        "value": "https://www.mydomain.jpeg"
+      },
+      {
+        "component": "text",
+        "name": "imageAlt",
+        "value": "Man with a dog"
+      },
+      {
+        "component": "richtext",
+        "name": "text",
+        "value": "Hero Description Goes Here"
+      }
+    ]
+  }
+]

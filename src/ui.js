@@ -2,7 +2,6 @@ import { createMarkdown } from './markdown.js';
 import headingField from './fields/headingField.js';
 import imageField from './fields/imageField.js';
 import linkField from './fields/linkField.js';
-import { debounce } from 'lodash';
 
 // Initialize CodeMirror
 const editor = CodeMirror.fromTextArea(document.getElementById('jsonEditor'), {
@@ -82,23 +81,23 @@ function groupModelFields(model) {
 }
 
 // Function to generate HTML table from model data
-function generateTable(fields, modelId) {
+function generateTable(fields, modelId, classes) {
 
   let html = '<table>\n';
 
   // Add header row
   html += '  <tr>\n';
-  html += `    <th>${modelId.charAt(0).toUpperCase() + modelId.slice(1)}</th>\n`;
+  html += `    <th>${modelId.charAt(0).toUpperCase() + modelId.slice(1)} ${classes[0] ? `(${classes[0].value})` : ''}</th>\n`;
   html += '  </tr>\n';
 
   // Add content row
-  // for each field group, add a row
+  // for each field group, add a row  
   fields.forEach(fieldGrouping => {
     html += '  <tr>\n';
     html += '    <td>\n';
     // for each field in the fieldGrouping add it to the same td cell
     fieldGrouping.fields.forEach((field, index) => {
-      // for each field wrap in a <p> tag
+      // for each fiedl wrap in a <p> tag
       // if there are more fields to follow add a </p> tag
       html += `<p>${renderField(field)}</p>`;
       if (index < fieldGrouping.fields.length - 1) {
@@ -133,8 +132,9 @@ function renderField(field) {
 async function updatePreview() {
   try {
     const modelData = JSON.parse(editor.getValue());
+    const classes = modelData[0].fields.filter((field) => field.name === 'classes')
     const fieldGroup = groupModelFields(modelData[0]);
-    const html = generateTable(fieldGroup, modelData[0].id);
+    const html = generateTable(fieldGroup, modelData[0].id, classes);
     const { content } = await createMarkdown(html);
     markdownPreview.setValue(content);
 
@@ -145,78 +145,9 @@ async function updatePreview() {
 
 // Add event listener for editor changes
 // debounce the updatePreview function
-editor.on('change', debounce(updatePreview, 1000));
+editor.on('change', updatePreview);
 
-// Set initial value
-editor.setValue(JSON.stringify([
-  {
-    "id": "hero",
-    "fields": [
-      {
-        "component": "text",
-        "name": "samecell_heading",
-        "value": "Cell 1"
-      },
-      {
-        "component": "text",
-        "name": "samecell_value",
-        "value": "Cell 1 - Next Line"
-      },
-      {
-        "component": "text",
-        "name": "samecell_valueType",
-        "value": "h2"
-      },
-      {
-        "component": "richtext",
-        "name": "sometext",
-        "value": "Just some text that goes in here<b>foo</b> bar."
-      },
-      {
-        "component": "text",
-        "name": "title",
-        "value": "Rock'n Roll Plush"
-      },
-      {
-        "component": "text",
-        "name": "titleType",
-        "value": "h2"
-      },
-      {
-        "component": "text",
-        "name": "description",
-        "value": "Description Goes here"
-      },
-      {
-        "component": "text",
-        "name": "link",
-        "value": "https://www.google.com"
-      },
-      {
-        "component": "text",
-        "name": "linkText",
-        "value": "Adobe"
-      },
-      {
-        "component": "text",
-        "name": "linkType",
-        "value": "secondary"
-      },
-      {
-        "component": "reference",
-        "name": "image",
-        "value": "https://www.mydomain.jpeg"
-      },
-      {
-        "component": "text",
-        "name": "imageAlt",
-        "value": "Hero image"
-      },
-      {
-        "component": "reference",
-        "name": "secondimage",
-        "value": "https://www.mydomain2.jpeg"
-      },
-    ]
-  }
-], null, 2));
+export {
+  editor,
+  markdownPreview
+}
