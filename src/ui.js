@@ -1,4 +1,8 @@
 import { createMarkdown } from './markdown.js';
+import headingField from './fields/headingField.js';
+import imageField from './fields/imageField.js';
+import linkField from './fields/linkField.js';
+import { debounce } from 'lodash';
 
 // Initialize CodeMirror
 const editor = CodeMirror.fromTextArea(document.getElementById('jsonEditor'), {
@@ -92,7 +96,16 @@ function generateTable(fields, modelId) {
   fields.forEach(fieldGrouping => {
     html += '  <tr>\n';
     html += '    <td>\n';
-    html += renderField(fieldGrouping);
+    // for each field in the fieldGrouping add it to the same td cell
+    fieldGrouping.fields.forEach((field, index) => {
+      // for each fiedl wrap in a <p> tag
+      // if there are more fields to follow add a </p> tag
+      html += `<p>${renderField(field)}</p>`;
+      if (index < fieldGrouping.fields.length - 1) {
+        html += '</p>';
+      }
+
+    });
     html += '    </td>\n';
     html += '  </tr>\n';
   });
@@ -102,21 +115,15 @@ function generateTable(fields, modelId) {
   return html;
 }
 
-function renderField(fieldGrouping) {
+function renderField(field) {
   let html = '';
-  let hasCollapsed = fieldGrouping.fields[0].collapsed;
 
-  if (hasCollapsed) {
-    // if the field has a name that ends in Type, then add a <h> element with the value of the field grouping field
-    if (fieldGrouping.fields[0].collapsed[0].name.endsWith('Type')) {
-      html += `<${fieldGrouping.fields[0].collapsed[0].value}>`;
-    }
-    html += `${fieldGrouping.fields[0].value}`;
-    if (fieldGrouping.fields[0].collapsed[0].name.endsWith('Type')) {
-      html += `</${fieldGrouping.fields[0].collapsed[0].value}>`;
-    }
-  } else {
-    html += `${fieldGrouping.fields[0].value}`;
+  html = headingField(field, html);
+  html = imageField(field, html);
+  html = linkField(field, html);
+
+  if (html == '') {
+    html = field.value;
   }
 
   return html;
@@ -124,7 +131,6 @@ function renderField(fieldGrouping) {
 
 // Function to update preview
 async function updatePreview() {
-  console.log('updatePreview');
   try {
     const modelData = JSON.parse(editor.getValue());
     const fieldGroup = groupModelFields(modelData[0]);
@@ -138,13 +144,34 @@ async function updatePreview() {
 }
 
 // Add event listener for editor changes
-editor.on('change', updatePreview);
+// debounce the updatePreview function
+editor.on('change', debounce(updatePreview, 1000));
 
 // Set initial value
 editor.setValue(JSON.stringify([
   {
     "id": "hero",
     "fields": [
+      {
+        "component": "text",
+        "name": "samecell_heading",
+        "value": "Cell 1"
+      },
+      {
+        "component": "text",
+        "name": "samecell_value",
+        "value": "Cell 1 - Next Line"
+      },
+      {
+        "component": "text",
+        "name": "samecell_valueType",
+        "value": "h2"
+      },
+      {
+        "component": "richtext",
+        "name": "sometext",
+        "value": "Just some text that goes in here<b>foo</b> bar."
+      },
       {
         "component": "text",
         "name": "title",
@@ -162,24 +189,34 @@ editor.setValue(JSON.stringify([
       },
       {
         "component": "text",
-        "name": "description_cta",
-        "value": "Description Goes here"
+        "name": "link",
+        "value": "https://www.google.com"
       },
       {
         "component": "text",
-        "name": "description_cta2",
-        "value": "Description Goes here"
+        "name": "linkText",
+        "value": "Adobe"
+      },
+      {
+        "component": "text",
+        "name": "linkType",
+        "value": "secondary"
       },
       {
         "component": "reference",
         "name": "image",
-        "value": "https://main--stini--bhellema.aem.live/media_1b50a0b66ff593398f892cc5a375cf708fac7141e.jpeg"
+        "value": "https://www.mydomain.jpeg"
       },
       {
         "component": "text",
         "name": "imageAlt",
         "value": "Hero image"
-      }
+      },
+      {
+        "component": "reference",
+        "name": "secondimage",
+        "value": "https://www.mydomain2.jpeg"
+      },
     ]
   }
 ], null, 2)); 
