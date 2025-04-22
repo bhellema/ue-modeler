@@ -22,7 +22,11 @@ jobs:
     
     - name: Build
       run: npm run build
- static:
+  static:
+    needs: build
+    runs-on: ubuntu-latest
+    if: success()
+
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment }}
 
