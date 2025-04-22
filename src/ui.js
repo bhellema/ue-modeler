@@ -92,13 +92,13 @@ function generateTable(fields, modelId) {
   html += '  </tr>\n';
 
   // Add content row
-  // for each field group, add a row  
+  // for each field group, add a row
   fields.forEach(fieldGrouping => {
     html += '  <tr>\n';
     html += '    <td>\n';
     // for each field in the fieldGrouping add it to the same td cell
     fieldGrouping.fields.forEach((field, index) => {
-      // for each fiedl wrap in a <p> tag
+      // for each field wrap in a <p> tag
       // if there are more fields to follow add a </p> tag
       html += `<p>${renderField(field)}</p>`;
       if (index < fieldGrouping.fields.length - 1) {
@@ -219,4 +219,4 @@ editor.setValue(JSON.stringify([
       },
     ]
   }
-], null, 2)); 
+], null, 2));

@@ -32,7 +32,14 @@ export default {
         {
           from: 'src/styles.css',
           to: 'styles.css'
-        }
+        },
+        {
+          from: 'dist',
+          to: '../site',
+          globOptions: {
+            ignore: ['**/bundle.js.map'],
+          },
+        },
       ]
     })
   ],
