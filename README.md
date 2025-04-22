@@ -1,59 +1,59 @@
-# JSON to Markdown Table Converter
+# UE Modeler
 
-This Node.js application converts JSON model definitions into markdown tables, following specific field grouping rules.
+A web-based tool for modeling and generating Markdown tables from JSON data. This application provides a user-friendly interface for creating and editing JSON models with real-time Markdown preview.
 
-## Installation
+## Features
 
-```bash
-npm install
-```
+- Real-time JSON editing with syntax highlighting
+- Live Markdown preview
+- Pre-built model templates
+- Modern, responsive UI
+- GitHub Pages deployment
 
-## Usage
+## Live Demo
 
-```javascript
-import { convertJsonToMarkdownTable } from './src/index.js';
+Check out the live version at [https://bhellema.github.io/ue-modeler/](https://bhellema.github.io/ue-modeler/)
 
-const jsonData = {
-    "models": [
-        {
-            "fields": [
-                {
-                    "component": "text",
-                    "name": "hero_description",
-                    "label": "Hero Description"
-                },
-                {
-                    "component": "text",
-                    "name": "hero_label",
-                    "label": "Hero Label"
-                }
-            ]
-        }
-    ]
-};
+## Getting Started
 
-const markdownTable = convertJsonToMarkdownTable(jsonData);
-console.log(markdownTable);
-```
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/bhellema/ue-modeler.git
+   ```
 
-## Field Grouping Rules
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-1. Fields are listed under the `fields` node in the JSON
-2. Each field has a `name` property
-3. A unique name property creates a new row in the markdown table
-4. Fields with names containing underscores (e.g., `hero_description`, `hero_label`) are grouped in the same cell
-5. Fields with names ending in Text, MimeType, Type, Alt, or Title are collapsed with other fields that share the same name prefix
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-## Example Output
+4. Build for production:
+   ```bash
+   npm run build
+   ```
 
-| Field Name | Properties |
-|------------|------------|
-| hero | Component: text<br>Label: Hero Description<br>Component: text<br>Label: Hero Label |
-| text | Component: text<br>Label: Text |
-| image | Component: image<br>Label: Image<br>Component: text<br>Label: Image Alt Text |
+## Project Structure
 
-## Running the Example
+- `src/` - Source files
+  - `index.html` - Main HTML file
+  - `index.js` - Main JavaScript file
+  - `styles.css` - Styles
+  - `samples/` - JSON model templates
+- `dist/` - Build output
+- `site/` - Production build for GitHub Pages
 
-```bash
-node test/example.js
-```
+## Technologies Used
+
+- Webpack
+- CodeMirror
+- Marked
+- GitHub Actions
+- GitHub Pages
+
+## License
+
+ISC
