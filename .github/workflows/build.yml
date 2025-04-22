@@ -23,13 +23,8 @@ jobs:
     - name: Build
       run: npm run build
 
-    - name: Trigger Static Workflow
-      uses: actions/github-script@v6
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
       with:
-        script: |
-          github.rest.actions.createWorkflowDispatch({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            workflow_id: 'static.yml',
-            ref: 'main'
-          }); 
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./site
