@@ -1,0 +1,57 @@
+[
+  {
+    "id": "container-block",
+    "fields": [
+      {
+        "component": "text",
+        "name": "classes",
+        "value": "big"
+      }
+    ]
+  },
+  {
+    "id": "container-block-item",
+    "fields": [
+      {
+        "component": "text",
+        "name": "image",
+        "value": "https://www.mydomain.jpeg"
+      },
+      {
+        "component": "text",
+        "name": "imageAlt",
+        "value": "Man with a dog"
+      },
+      {
+        "component": "text",
+        "name": "details",
+        "value": "Walk your dog every day"
+      },
+      {
+        "component": "text",
+        "name": "author_name",
+        "value": "Steve Monroe"
+      },
+      {
+        "component": "text",
+        "name": "author_position",
+        "value": "Sr. Dog Walker"
+      },
+      {
+        "component": "text",
+        "name": "author_picture",
+        "value": "https://www.mydomain/headhost.jpeg"
+      },
+      {
+        "component": "text",
+        "name": "author_pictureAlt",
+        "value": "Steve"
+      },
+      {
+        "component": "text",
+        "name": "classes",
+        "value": "bark"
+      }
+    ]
+  }
+]

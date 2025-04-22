@@ -81,24 +81,34 @@ function groupModelFields(model) {
 }
 
 // Function to generate HTML table from model data
-function generateTable(fields, modelId, classes) {
+function generateTable(models) {
 
   let html = '<table>\n';
 
+  // first model is the header row
+  const primaryModel = models[0];
+  const classes = primaryModel.fields.find((field) => field.name === 'classes');
+  const classesValue = classes ? `(${classes.value})` : '';
+  // take the primaryModel.id and remove the - if present and capitalize the first letter of each word
+  const primaryModelId = primaryModel.id.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
+
+  // find the max number of field in the primary model or child models
+  const maxFields = Math.max(...models.map(model => groupModelFields(model).length));
+
   // Add header row
   html += '  <tr>\n';
-  html += `    <th>${modelId.charAt(0).toUpperCase() + modelId.slice(1)} ${classes[0] ? `(${classes[0].value})` : ''}</th>\n`;
+  html += `    <th colspan="${maxFields}">${primaryModelId} ${classesValue}</th>\n`;
   html += '  </tr>\n';
 
-  // Add content row
-  // for each field group, add a row  
+  const fields = groupModelFields(primaryModel);
+
+  // for each model in the models array, add a row to the table
   fields.forEach(fieldGrouping => {
+    // colspan the number of fields in the fieldGrouping
     html += '  <tr>\n';
-    html += '    <td>\n';
+    html += `    <td colspan=${maxFields}>\n`;
     // for each field in the fieldGrouping add it to the same td cell
     fieldGrouping.fields.forEach((field, index) => {
-      // for each fiedl wrap in a <p> tag
-      // if there are more fields to follow add a </p> tag
       html += `<p>${renderField(field)}</p>`;
       if (index < fieldGrouping.fields.length - 1) {
         html += '</p>';
@@ -108,6 +118,33 @@ function generateTable(fields, modelId, classes) {
     html += '    </td>\n';
     html += '  </tr>\n';
   });
+
+
+  // for each model in the models array, add a row to the table
+  models.slice(1).forEach(model => {
+    const fields = groupModelFields(model);
+    html += '  <tr>\n';
+
+    // if the fields array contains a field with a name of "classes" then add it to the td cell
+    const classes = model.fields.find((field) => field.name === 'classes');
+    if (classes) {
+      html += `<td>${model.id} ${classes.value}</td>\n`;
+    }
+
+    fields.forEach(fieldGrouping => {
+      html += '    <td>\n';
+      fieldGrouping.fields.forEach((field, index) => {
+        html += `<p>${renderField(field)}</p>`;
+        if (index < fieldGrouping.fields.length - 1) {
+          html += '</p>';
+        }
+
+      });
+      html += '    </td>\n';
+    });
+    html += '  </tr>\n';
+  });
+
 
   html += '</table>';
 
@@ -132,9 +169,7 @@ function renderField(field) {
 async function updatePreview() {
   try {
     const modelData = JSON.parse(editor.getValue());
-    const classes = modelData[0].fields.filter((field) => field.name === 'classes')
-    const fieldGroup = groupModelFields(modelData[0]);
-    const html = generateTable(fieldGroup, modelData[0].id, classes);
+    const html = generateTable(modelData);
     const { content } = await createMarkdown(html);
     markdownPreview.setValue(content);
 
