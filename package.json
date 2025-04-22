@@ -5,8 +5,9 @@
   "type": "module",
   "main": "src/index.js",
   "scripts": {
-    "start": "npx http-server src -o -c-1",
-    "dev": "npx http-server src -o -c-1",
+    "start": "npx http-server dist -o -c-1",
+    "dev": "webpack serve --mode development",
+    "build": "webpack --mode production",
     "test": "mocha test/**/*.test.js"
   },
   "dependencies": {
@@ -24,8 +25,15 @@
   },
   "devDependencies": {
     "chai": "^4.3.7",
+    "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.8.1",
+    "html-webpack-plugin": "^5.5.3",
     "http-server": "^14.1.1",
-    "mocha": "^10.2.0"
+    "mocha": "^10.2.0",
+    "style-loader": "^3.3.3",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
   },
   "repository": {
     "type": "git",
