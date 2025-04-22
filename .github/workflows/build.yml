@@ -21,4 +21,15 @@ jobs:
       run: npm ci
     
     - name: Build
-      run: npm run build 
+      run: npm run build
+
+    - name: Trigger Static Workflow
+      uses: actions/github-script@v6
+      with:
+        script: |
+          github.rest.actions.createWorkflowDispatch({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            workflow_id: 'static.yml',
+            ref: 'main'
+          }); 
