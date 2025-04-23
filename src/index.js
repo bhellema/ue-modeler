@@ -1,4 +1,5 @@
 import './styles.css';
+import { marked } from 'marked';
 import { editor } from './ui.js';
 import heroJson from './samples/hero.json';
 import modalJson from './samples/modal.json';
@@ -82,6 +83,41 @@ function stopResize() {
 resizeBar.addEventListener('mousedown', initResize);
 resizeBar.addEventListener('dblclick', centerSections);
 
+// Handle help button click
+const helpButton = document.querySelector('.help-button');
+const documentationPanel = document.querySelector('.documentation-panel');
+const closeButton = document.querySelector('.close-button');
+const documentationContent = document.querySelector('.documentation-content');
+
+async function loadDocumentation() {
+  try {
+    const response = await fetch('https://raw.githubusercontent.com/bhellema/ue-modeler/main/docs/usage.md');
+    const markdown = await response.text();
+    documentationContent.innerHTML = marked.parse(markdown);
+  } catch (error) {
+    documentationContent.innerHTML = '<p>Error loading documentation. Please try again later.</p>';
+  }
+}
+
+function toggleDocumentation() {
+  documentationPanel.classList.toggle('open');
+  if (documentationPanel.classList.contains('open')) {
+    loadDocumentation();
+  }
+}
+
+helpButton.addEventListener('click', toggleDocumentation);
+closeButton.addEventListener('click', toggleDocumentation);
+
+// Close documentation when clicking outside
+document.addEventListener('click', (e) => {
+  if (documentationPanel.classList.contains('open') &&
+    !documentationPanel.contains(e.target) &&
+    e.target !== helpButton) {
+    toggleDocumentation();
+  }
+});
+
 // Set initial content to hero model
 editor.setValue(JSON.stringify(heroJson, null, 2));
 
@@ -92,7 +128,10 @@ Object.keys(modelData).forEach(model => {
   button.setAttribute('data-model', model);
   // uppercase the first letter
   button.textContent = model.charAt(0).toUpperCase() + model.slice(1);
-  document.querySelector('.nav-content').appendChild(button);
+
+  // update to append the new button before the help button
+  const helpButton = document.querySelector('.help-button');
+  helpButton.parentNode.insertBefore(button, helpButton);
 });
 
 // Add click handlers for all model buttons

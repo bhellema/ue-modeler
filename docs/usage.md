@@ -1,10 +1,10 @@
 # UE Modeler
-Visualize and create Markdown content by modeling your data in JSON. This tool helps you see the connection between the JSON model and the Markdown output.
-The primary goal of this tool is to show the impact of model field naming and the impact on the markdown.
+Visualize and generate Markdown content by modeling your data in JSON. This tool helps you understand the relationship between your JSON model and the resulting Markdown output.
+The primary goal of this tool is to demonstrate how model field naming affects the generated Markdown.
 
 ## Basics
-The basic idea of the UE Modeler is to allow you to view the impact of modeling fields, and how the names impact the markdown generation.  This tool is
-simplistic in what it currently supports. A basic model structure must contain a name, and value field.
+The core concept of the UE Modeler is to let you explore how field names influence Markdown generation. 
+The tool is currently basic in functionality, supporting a simple model structure that requires two fields: name and value.
 
 ```json
 [
@@ -44,19 +44,21 @@ The above model will generate the following markdown:
    
 ## Fundamental Concepts
 
-There are two concepts that need to be understood.
+There are three concepts that need to be understood.
 
 1. Defining a Model
 2. Field Collapsing
 3. Element Grouping
 
 ### Defining a Model
-Official Documentation can be found [here](https://www.aem.live/developer/component-model-definitions).
+[Official Documentation](https://www.aem.live/developer/component-model-definitions)
 
-When defining a model for the Universal Editor there are a large set of properties that can be used to define the model. For the sake of this 
-tooling, only two properties are required, `name` and `value`.  The `name` property is the name of the field, and the `value` property is the value of the field.
+When defining a model for the Universal Editor, a wide range of properties are available. However, this tool only requires two: name and value.
 
-A model must be placed inside the following JSON structure:
+* name represents the field name.
+* value holds the corresponding data.
+
+All models must be wrapped in the following JSON structure:
 
 ```JSON
 [
@@ -67,15 +69,15 @@ A model must be placed inside the following JSON structure:
 ]
 ```
 
-You may define multiple models in the same JSON structure.  The first model is considered the primary model the scenario for block components.
-The second model is considered the child model for the container block.  Details on container blocks can be found [here](https://www.aem.live/developer/component-model-definitions#container-blocks).
-For an example of a container block, see the [block](../src/samples/block.json) example.
+You may define multiple models in the same JSON structure. The first model is treated as the primary model 
+(typically used for block components), while subsequent models are considered child models 
+(commonly used in container blocks). As sample block can be found in this [git](https://raw.githubusercontent.com/bhellema/ue-modeler/refs/heads/main/src/samples/block.json) example.
 
 ### Field Collapsing
 
-Official Documentation can be found [here](https://www.aem.live/developer/component-model-definitions#field-collapse).
+[Official Documentation](https://www.aem.live/developer/component-model-definitions#field-collapse)
 
-Field collapse is the mechanism to combine multiple field values into a single semantic element based on a naming convention using the suffixes Title, Type, MimeType, Alt, and Text (all case sensitive). Any property ending with any of those suffixes will not be considered a value, but rather as an attribute of another property.
+Field collapsing is a naming convention used to merge multiple field values into a single semantic element. If a field name ends with a specific suffix—Title, Type, MimeType, Alt, or Text (case-sensitive)—it is not treated as a standalone value but rather as metadata for another field.
 
 ```
 {
@@ -86,12 +88,12 @@ Field collapse is the mechanism to combine multiple field values into a single s
 }
 ```
 
-When naming a field with one of the following suffixes they are collapsed with their primary field.  The available suffixes are "Alt", "Text", "Title", "Type", and "MimeType".  A field with a suffix must have an associated primary field.
+In this example, headingType is collapsed into heading as an attribute. Every field with a suffix must be associated with a corresponding base field.
 
 ### Element Grouping
 
-Official Documentation can be found [here](https://www.aem.live/developer/component-model-definitions#element-grouping).
+[Official Documentation](https://www.aem.live/developer/component-model-definitions#element-grouping)
 
-Element grouping uses a naming convention, where the group name is separated from each property in the group by an underscore. Field collapse of the properties in a group works as previously described.
+Element grouping uses a naming convention where the group name is prefixed and separated from each field by an underscore (_). Grouped fields can also be collapsed using the suffix rules described above.
 
  

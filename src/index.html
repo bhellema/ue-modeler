@@ -14,6 +14,14 @@
   <nav class="navbar">
     <div class="nav-content">
       <h1>UE Modeler</h1>
+      <button class="help-button" aria-label="Open usage documentation">
+        <svg class="help-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
+          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+          <line x1="12" y1="17" x2="12.01" y2="17" />
+        </svg>
+        Usage
+      </button>
     </div>
   </nav>
 
@@ -43,6 +51,21 @@
         <textarea id="import-markdown-source" rows="4" cols="10"></textarea>
       </div>
     </main>
+  </div>
+
+  <div class="documentation-panel">
+    <div class="documentation-header">
+      <h2>Usage Documentation</h2>
+      <button class="close-button" aria-label="Close documentation">
+        <svg class="close-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18" />
+          <path d="M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+    <div class="documentation-content">
+      <!-- Content will be loaded here -->
+    </div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
