@@ -93,10 +93,11 @@ header h1 {
 
 main {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0;
   flex: 1;
   min-height: 0;
+  position: relative;
 }
 
 .editor-section,
@@ -109,6 +110,7 @@ main {
   display: flex;
   flex-direction: column;
   transition: var(--transition);
+  min-width: 200px;
 }
 
 .editor-section:hover,
@@ -182,6 +184,35 @@ h2::before {
   background-color: var(--card-bg);
 }
 
+.resize-bar {
+  width: 8px;
+  background-color: inherit;
+  cursor: col-resize;
+  transition: background-color 0.2s ease;
+  position: relative;
+  margin: 0 0.5rem;
+  opacity: 0.2;
+  -webkit-user-select: none;
+}
+
+.resize-bar::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background-color: black;
+  transform: translateY(-50%);
+  border-radius: 4px;
+}
+
+.resizing {
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
 @media (max-width: 768px) {
   .container {
     padding: 1rem;
@@ -199,6 +230,10 @@ h2::before {
 
   header h1 {
     font-size: 2rem;
+  }
+
+  .resize-bar {
+    display: none;
   }
 }
 

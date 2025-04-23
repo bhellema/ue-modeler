@@ -35,6 +35,53 @@ descriptionContainer.addEventListener('keydown', (e) => {
   }
 });
 
+// Handle resize bar functionality
+const resizeBar = document.querySelector('.resize-bar');
+const editorSection = document.querySelector('.editor-section');
+const previewSection = document.querySelector('.preview-section');
+let isResizing = false;
+let startX;
+let startWidth;
+
+function initResize(e) {
+  isResizing = true;
+  startX = e.clientX;
+  startWidth = editorSection.offsetWidth;
+  document.body.style.cursor = 'col-resize';
+  document.addEventListener('mousemove', handleResize);
+  document.addEventListener('mouseup', stopResize);
+}
+
+function handleResize(e) {
+  if (!isResizing) return;
+
+  // Add resizing class only when we actually start moving
+  if (!document.body.classList.contains('resizing')) {
+    document.body.classList.add('resizing');
+  }
+
+  const width = startWidth + (e.clientX - startX);
+  const containerWidth = editorSection.parentElement.offsetWidth;
+  const minWidth = 200;
+  const maxWidth = containerWidth - minWidth - resizeBar.offsetWidth;
+
+  if (width >= minWidth && width <= maxWidth) {
+    editorSection.style.width = `${width}px`;
+    previewSection.style.width = `${containerWidth - width - resizeBar.offsetWidth}px`;
+  }
+}
+
+function stopResize() {
+  isResizing = false;
+  document.body.style.cursor = '';
+  document.body.classList.remove('resizing');
+  document.removeEventListener('mousemove', handleResize);
+  document.removeEventListener('mouseup', stopResize);
+}
+
+resizeBar.addEventListener('mousedown', initResize);
+resizeBar.addEventListener('dblclick', centerSections);
+
 // Set initial content to hero model
 editor.setValue(JSON.stringify(heroJson, null, 2));
 
@@ -58,3 +105,10 @@ document.querySelectorAll('.nav-button').forEach(button => {
     }
   });
 });
+
+function centerSections() {
+  const containerWidth = editorSection.parentElement.offsetWidth;
+  const newWidth = (containerWidth - resizeBar.offsetWidth) / 2;
+  editorSection.style.width = `${newWidth}px`;
+  previewSection.style.width = `${newWidth}px`;
+}

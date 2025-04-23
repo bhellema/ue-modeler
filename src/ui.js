@@ -179,7 +179,6 @@ async function updatePreview() {
 }
 
 // Add event listener for editor changes
-// debounce the updatePreview function
 editor.on('change', updatePreview);
 
 export {
