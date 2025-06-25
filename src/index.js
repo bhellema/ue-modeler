@@ -160,6 +160,17 @@ document.addEventListener('click', (e) => {
 editor.setValue(JSON.stringify(heroModelJson, null, 2));
 dataEditor.setValue(JSON.stringify(heroDataJson, null, 2));
 
+// Handle window resize to recalculate panel sizes
+function handleWindowResize() {
+  // Only recalculate if we're not currently resizing manually
+  if (!isResizing) {
+    centerSections();
+  }
+}
+
+// Add window resize event listener
+window.addEventListener('resize', handleWindowResize);
+
 // dynamically add a button for each model
 Object.keys(modelData).forEach(model => {
   const button = document.createElement('button');
