@@ -193,7 +193,6 @@ body::before {
   width: 100%;
   flex: 1;
   overflow: hidden;
-  max-width: 1920px;
 }
 
 main {
