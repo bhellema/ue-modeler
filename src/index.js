@@ -85,12 +85,13 @@ function handleResize(e) {
 
   if (isResizingBar1) {
     const width = startWidth + (e.clientX - startX);
-    const maxWidth = containerWidth - minWidth * 2 - resizeBarWidth * 2;
+    const previewWidth = previewSection.offsetWidth;
+    const maxWidth = containerWidth - minWidth - previewWidth - resizeBarWidth * 2;
 
     if (width >= minWidth && width <= maxWidth) {
-      editorSection.style.width = `${width}px`;
-      dataSection.style.width = `${containerWidth - width - minWidth - resizeBarWidth * 2}px`;
-      previewSection.style.width = `${minWidth}px`;
+      const dataWidth = containerWidth - width - previewWidth - resizeBarWidth * 2;
+      const main = editorSection.parentElement;
+      main.style.gridTemplateColumns = `${width}px ${resizeBarWidth}px ${dataWidth}px ${resizeBarWidth}px ${previewWidth}px`;
     }
   } else if (isResizingBar2) {
     const width = startWidth + (e.clientX - startX);
@@ -98,8 +99,9 @@ function handleResize(e) {
     const maxWidth = containerWidth - editorWidth - minWidth - resizeBarWidth * 2;
 
     if (width >= minWidth && width <= maxWidth) {
-      dataSection.style.width = `${width}px`;
-      previewSection.style.width = `${containerWidth - editorWidth - width - resizeBarWidth * 2}px`;
+      const previewWidth = containerWidth - editorWidth - width - resizeBarWidth * 2;
+      const main = editorSection.parentElement;
+      main.style.gridTemplateColumns = `${editorWidth}px ${resizeBarWidth}px ${width}px ${resizeBarWidth}px ${previewWidth}px`;
     }
   }
 }
@@ -187,7 +189,6 @@ function centerSections() {
   const containerWidth = editorSection.parentElement.offsetWidth;
   const resizeBarWidth = 8;
   const newWidth = (containerWidth - resizeBarWidth * 2) / 3;
-  editorSection.style.width = `${newWidth}px`;
-  dataSection.style.width = `${newWidth}px`;
-  previewSection.style.width = `${newWidth}px`;
+  const main = editorSection.parentElement;
+  main.style.gridTemplateColumns = `${newWidth}px ${resizeBarWidth}px ${newWidth}px ${resizeBarWidth}px ${newWidth}px`;
 }
