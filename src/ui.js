@@ -3,7 +3,7 @@ import headingField from './fields/headingField.js';
 import imageField from './fields/imageField.js';
 import linkField from './fields/linkField.js';
 
-// Initialize CodeMirror
+// Initialize CodeMirror for JSON model
 const editor = CodeMirror.fromTextArea(document.getElementById('jsonEditor'), {
   mode: 'javascript',
   theme: 'monokai',
@@ -16,6 +16,20 @@ const editor = CodeMirror.fromTextArea(document.getElementById('jsonEditor'), {
 });
 
 editor.setSize('100%', '100%');
+
+// Initialize CodeMirror for data
+const dataEditor = CodeMirror.fromTextArea(document.getElementById('dataEditor'), {
+  mode: 'javascript',
+  theme: 'monokai',
+  lineNumbers: true,
+  autoCloseBrackets: true,
+  matchBrackets: true,
+  indentUnit: 2,
+  tabSize: 2,
+  lineWrapping: true
+});
+
+dataEditor.setSize('100%', '100%');
 
 const markdownPreview = CodeMirror.fromTextArea(document.getElementById('import-markdown-source'), {
   mode: 'markdown',
@@ -165,23 +179,49 @@ function renderField(field) {
   return html;
 }
 
+// Function to merge model and data
+function mergeModelAndData(model, data) {
+  if (!Array.isArray(model)) {
+    throw new Error('Model must be an array');
+  }
+  
+  if (typeof data !== 'object' || data === null) {
+    throw new Error('Data must be an object');
+  }
+
+  return model.map(modelItem => ({
+    ...modelItem,
+    fields: modelItem.fields.map(field => ({
+      ...field,
+      value: data[field.name] || field.value || ''
+    }))
+  }));
+}
+
 // Function to update preview
 async function updatePreview() {
   try {
     const modelData = JSON.parse(editor.getValue());
-    const html = generateTable(modelData);
+    const dataValues = JSON.parse(dataEditor.getValue());
+    
+    // Merge model and data
+    const mergedData = mergeModelAndData(modelData, dataValues);
+    
+    const html = generateTable(mergedData);
     const { content } = await createMarkdown(html);
     markdownPreview.setValue(content);
 
   } catch (error) {
-    markdownPreview.setValue(error.message);
+    markdownPreview.setValue(`Error: ${error.message}`);
   }
 }
 
-// Add event listener for editor changes
+// Add event listeners for both editors
 editor.on('change', updatePreview);
+dataEditor.on('change', updatePreview);
 
 export {
   editor,
+  dataEditor,
   markdownPreview
 }

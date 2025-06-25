@@ -1,23 +1,30 @@
 import './styles.css';
 import { marked } from 'marked';
-import { editor } from './ui.js';
-import heroJson from './samples/hero.json';
-import modalJson from './samples/modal.json';
-import mixbagJson from './samples/mixbag.json';
-import quoteJson from './samples/quote.json';
-import searchJson from './samples/search.json';
-import blockJson from './samples/block.json';
-import blockWithClassesJson from './samples/block-with-classes.json';
+import { editor, dataEditor } from './ui.js';
+import heroModelJson from './samples/hero-model.json';
+import heroDataJson from './samples/hero-data.json';
+import modalModelJson from './samples/modal-model.json';
+import modalDataJson from './samples/modal-data.json';
+import mixbagModelJson from './samples/mixbag-model.json';
+import mixbagDataJson from './samples/mixbag-data.json';
+import quoteModelJson from './samples/quote-model.json';
+import quoteDataJson from './samples/quote-data.json';
+import searchModelJson from './samples/search-model.json';
+import searchDataJson from './samples/search-data.json';
+import blockModelJson from './samples/block-model.json';
+import blockDataJson from './samples/block-data.json';
+import blockWithClassesModelJson from './samples/block-with-classes-model.json';
+import blockWithClassesDataJson from './samples/block-with-classes-data.json';
 
-// Create a mapping of model names to their JSON data
+// Create a mapping of model names to their model and data
 const modelData = {
-  hero: heroJson,
-  modal: modalJson,
-  mixbag: mixbagJson,
-  quote: quoteJson,
-  search: searchJson,
-  block: blockJson,
-  'block-with-classes': blockWithClassesJson
+  hero: { model: heroModelJson, data: heroDataJson },
+  modal: { model: modalModelJson, data: modalDataJson },
+  mixbag: { model: mixbagModelJson, data: mixbagDataJson },
+  quote: { model: quoteModelJson, data: quoteDataJson },
+  search: { model: searchModelJson, data: searchDataJson },
+  block: { model: blockModelJson, data: blockDataJson },
+  'block-with-classes': { model: blockWithClassesModelJson, data: blockWithClassesDataJson }
 };
 
 // Handle description container collapse
@@ -37,17 +44,28 @@ descriptionContainer.addEventListener('keydown', (e) => {
 });
 
 // Handle resize bar functionality
-const resizeBar = document.querySelector('.resize-bar');
+const resizeBar1 = document.querySelector('.resize-bar-1');
+const resizeBar2 = document.querySelector('.resize-bar-2');
 const editorSection = document.querySelector('.editor-section');
+const dataSection = document.querySelector('.data-section');
 const previewSection = document.querySelector('.preview-section');
 let isResizing = false;
+let isResizingBar1 = false;
+let isResizingBar2 = false;
 let startX;
 let startWidth;
 
-function initResize(e) {
+function initResize(e, barNumber) {
   isResizing = true;
-  startX = e.clientX;
-  startWidth = editorSection.offsetWidth;
+  if (barNumber === 1) {
+    isResizingBar1 = true;
+    startX = e.clientX;
+    startWidth = editorSection.offsetWidth;
+  } else {
+    isResizingBar2 = true;
+    startX = e.clientX;
+    startWidth = dataSection.offsetWidth;
+  }
   document.body.style.cursor = 'col-resize';
   document.addEventListener('mousemove', handleResize);
   document.addEventListener('mouseup', stopResize);
@@ -61,27 +79,45 @@ function handleResize(e) {
     document.body.classList.add('resizing');
   }
 
-  const width = startWidth + (e.clientX - startX);
   const containerWidth = editorSection.parentElement.offsetWidth;
   const minWidth = 200;
-  const maxWidth = containerWidth - minWidth - resizeBar.offsetWidth;
+  const resizeBarWidth = 8;
 
-  if (width >= minWidth && width <= maxWidth) {
-    editorSection.style.width = `${width}px`;
-    previewSection.style.width = `${containerWidth - width - resizeBar.offsetWidth}px`;
+  if (isResizingBar1) {
+    const width = startWidth + (e.clientX - startX);
+    const maxWidth = containerWidth - minWidth * 2 - resizeBarWidth * 2;
+
+    if (width >= minWidth && width <= maxWidth) {
+      editorSection.style.width = `${width}px`;
+      dataSection.style.width = `${containerWidth - width - minWidth - resizeBarWidth * 2}px`;
+      previewSection.style.width = `${minWidth}px`;
+    }
+  } else if (isResizingBar2) {
+    const width = startWidth + (e.clientX - startX);
+    const editorWidth = editorSection.offsetWidth;
+    const maxWidth = containerWidth - editorWidth - minWidth - resizeBarWidth * 2;
+
+    if (width >= minWidth && width <= maxWidth) {
+      dataSection.style.width = `${width}px`;
+      previewSection.style.width = `${containerWidth - editorWidth - width - resizeBarWidth * 2}px`;
+    }
   }
 }
 
 function stopResize() {
   isResizing = false;
+  isResizingBar1 = false;
+  isResizingBar2 = false;
   document.body.style.cursor = '';
   document.body.classList.remove('resizing');
   document.removeEventListener('mousemove', handleResize);
   document.removeEventListener('mouseup', stopResize);
 }
 
-resizeBar.addEventListener('mousedown', initResize);
-resizeBar.addEventListener('dblclick', centerSections);
+resizeBar1.addEventListener('mousedown', (e) => initResize(e, 1));
+resizeBar2.addEventListener('mousedown', (e) => initResize(e, 2));
+resizeBar1.addEventListener('dblclick', centerSections);
+resizeBar2.addEventListener('dblclick', centerSections);
 
 // Handle help button click
 const helpButton = document.querySelector('.help-button');
@@ -118,8 +154,9 @@ document.addEventListener('click', (e) => {
   }
 });
 
-// Set initial content to hero model
-editor.setValue(JSON.stringify(heroJson, null, 2));
+// Set initial content to hero model and data
+editor.setValue(JSON.stringify(heroModelJson, null, 2));
+dataEditor.setValue(JSON.stringify(heroDataJson, null, 2));
 
 // dynamically add a button for each model
 Object.keys(modelData).forEach(model => {
@@ -138,16 +175,19 @@ Object.keys(modelData).forEach(model => {
 document.querySelectorAll('.nav-button').forEach(button => {
   button.addEventListener('click', () => {
     const model = button.getAttribute('data-model');
-    const json = modelData[model];
-    if (json) {
-      editor.setValue(JSON.stringify(json, null, 2));
+    const modelDataItem = modelData[model];
+    if (modelDataItem) {
+      editor.setValue(JSON.stringify(modelDataItem.model, null, 2));
+      dataEditor.setValue(JSON.stringify(modelDataItem.data, null, 2));
     }
   });
 });
 
 function centerSections() {
   const containerWidth = editorSection.parentElement.offsetWidth;
-  const newWidth = (containerWidth - resizeBar.offsetWidth) / 2;
+  const resizeBarWidth = 8;
+  const newWidth = (containerWidth - resizeBarWidth * 2) / 3;
   editorSection.style.width = `${newWidth}px`;
+  dataSection.style.width = `${newWidth}px`;
   previewSection.style.width = `${newWidth}px`;
 }

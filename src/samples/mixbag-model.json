@@ -1,0 +1,59 @@
+[
+  {
+    "id": "hero",
+    "fields": [
+      {
+        "component": "text",
+        "name": "samecell_heading"
+      },
+      {
+        "component": "text",
+        "name": "samecell_value"
+      },
+      {
+        "component": "text",
+        "name": "samecell_valueType"
+      },
+      {
+        "component": "richtext",
+        "name": "sometext"
+      },
+      {
+        "component": "text",
+        "name": "title"
+      },
+      {
+        "component": "text",
+        "name": "titleType"
+      },
+      {
+        "component": "text",
+        "name": "description"
+      },
+      {
+        "component": "text",
+        "name": "link"
+      },
+      {
+        "component": "text",
+        "name": "linkText"
+      },
+      {
+        "component": "text",
+        "name": "linkType"
+      },
+      {
+        "component": "reference",
+        "name": "image"
+      },
+      {
+        "component": "text",
+        "name": "imageAlt"
+      },
+      {
+        "component": "reference",
+        "name": "secondimage"
+      }
+    ]
+  }
+] 

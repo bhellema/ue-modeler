@@ -1,0 +1,19 @@
+[
+  {
+    "id": "hero",
+    "fields": [
+      {
+        "component": "reference",
+        "name": "image"
+      },
+      {
+        "component": "text",
+        "name": "imageAlt"
+      },
+      {
+        "component": "richtext",
+        "name": "text"
+      }
+    ]
+  }
+] 

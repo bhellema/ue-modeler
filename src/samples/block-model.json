@@ -1,0 +1,48 @@
+[
+  {
+    "id": "container-block",
+    "fields": [
+      {
+        "component": "text",
+        "name": "classes"
+      },
+      {
+        "component": "text",
+        "name": "story"
+      }
+    ]
+  },
+  {
+    "id": "container-block-item",
+    "fields": [
+      {
+        "component": "text",
+        "name": "image"
+      },
+      {
+        "component": "text",
+        "name": "imageAlt"
+      },
+      {
+        "component": "text",
+        "name": "details"
+      },
+      {
+        "component": "text",
+        "name": "author_name"
+      },
+      {
+        "component": "text",
+        "name": "author_position"
+      },
+      {
+        "component": "text",
+        "name": "author_picture"
+      },
+      {
+        "component": "text",
+        "name": "author_pictureAlt"
+      }
+    ]
+  }
+] 
