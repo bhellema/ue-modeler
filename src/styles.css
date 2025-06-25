@@ -362,11 +362,11 @@ body:not(.default-theme) .CodeMirror {
   border: 2px solid var(--matrix-border);
   color: var(--matrix-text);
   padding-top: 1em;
-  padding-bottom: 2rem;
+  padding-bottom: 1em;
   padding-left: 0;
   padding-right: 0;
   margin-top: 1em;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   margin-left: 2rem;
   margin-right: 2rem;
   box-shadow: none;
