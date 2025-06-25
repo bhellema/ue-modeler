@@ -71,9 +71,9 @@ body::before {
 
 .navbar {
   background: rgba(0, 0, 0, 0.9);
-  border-bottom: 2px solid var(--matrix-green);
+  border-bottom: none;
   padding: 1rem 2rem;
-  box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+  box-shadow: none;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -151,15 +151,49 @@ body::before {
   height: 16px;
 }
 
+.theme-switcher {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  color: var(--matrix-text-dim);
+  border: 1px solid var(--matrix-border-dim);
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  font-size: 0.875rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: 'Courier New', monospace;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  height: auto;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.theme-switcher:hover {
+  background: var(--matrix-green);
+  color: var(--matrix-bg);
+  border-color: var(--matrix-green);
+  box-shadow: 0 0 15px var(--matrix-green);
+}
+
+.theme-icon {
+  width: 18px;
+  height: 18px;
+}
+
 .container {
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0 2rem 2rem 2rem;
   height: 100%;
   display: flex;
   flex-direction: column;
   width: 100%;
   flex: 1;
   overflow: hidden;
+  max-width: 1920px;
 }
 
 main {
@@ -254,14 +288,20 @@ h2::before {
   background: var(--matrix-surface);
 }
 
+body:not(.default-theme) .CodeMirror {
+  background: var(--matrix-bg) !important;
+  color: var(--matrix-green) !important;
+  font-family: 'Courier New', 'Monaco', 'Consolas', monospace;
+  font-size: 0.875rem;
+  border-radius: var(--border-radius-sm);
+}
+
 .CodeMirror {
   height: 100%;
   width: 100%;
   border-radius: var(--border-radius-sm);
   font-family: 'Courier New', 'Monaco', 'Consolas', monospace;
   font-size: 0.875rem;
-  background: var(--matrix-bg) !important;
-  color: var(--matrix-green) !important;
 }
 
 .CodeMirror-scroll {
@@ -322,9 +362,15 @@ h2::before {
   background: var(--matrix-surface);
   border: 2px solid var(--matrix-border);
   color: var(--matrix-text);
-  padding: 2rem 0;
+  padding-top: 1em;
+  padding-bottom: 2rem;
+  padding-left: 0;
+  padding-right: 0;
+  margin-top: 1em;
   margin-bottom: 2rem;
-  box-shadow: inset 0 0 20px rgba(0, 255, 65, 0.1), 0 0 20px rgba(0, 255, 65, 0.2);
+  margin-left: 2rem;
+  margin-right: 2rem;
+  box-shadow: none;
   position: relative;
   transition: all 0.3s ease-in-out;
   min-height: 30px;
@@ -333,8 +379,7 @@ h2::before {
 }
 
 .description-container:focus {
-  outline: 2px solid var(--matrix-accent);
-  outline-offset: 2px;
+  outline: none;
 }
 
 .description-container.collapsed {
@@ -584,4 +629,264 @@ h2::before {
     width: 100%;
     right: -100%;
   }
+}
+
+/* Default Theme Styles */
+body.default-theme {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: #1e293b;
+  background: #f1f5f9;
+}
+
+body.default-theme::before {
+  display: none;
+}
+
+body.default-theme .navbar {
+  background: rgba(255, 255, 255, 0.9);
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: none;
+}
+
+body.default-theme .navbar h1 {
+  color: #3b82f6;
+  text-shadow: none;
+  letter-spacing: normal;
+}
+
+body.default-theme .nav-button {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  font-family: inherit;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+body.default-theme .nav-button:hover {
+  background: #2563eb;
+  color: white;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  text-shadow: none;
+}
+
+body.default-theme .help-button,
+body.default-theme .theme-switcher {
+  background: transparent;
+  color: #1e293b;
+  border: 1px solid #e2e8f0;
+  font-family: inherit;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+body.default-theme .help-button:hover,
+body.default-theme .theme-switcher:hover {
+  background: #f1f5f9;
+  color: #3b82f6;
+  border-color: #3b82f6;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+body.default-theme .editor-section,
+body.default-theme .data-section,
+body.default-theme .preview-section {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+body.default-theme .editor-section::before,
+body.default-theme .data-section::before,
+body.default-theme .preview-section::before {
+  display: none;
+}
+
+body.default-theme .editor-section:hover,
+body.default-theme .data-section:hover,
+body.default-theme .preview-section:hover {
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  border-color: #cbd5e1;
+}
+
+body.default-theme h2 {
+  color: #1e293b;
+  text-transform: none;
+  letter-spacing: normal;
+  text-shadow: none;
+}
+
+body.default-theme h2::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 1.25rem;
+  background-color: #3b82f6;
+  border-radius: 2px;
+}
+
+body.default-theme #jsonEditor,
+body.default-theme #dataEditor,
+body.default-theme #import-markdown-source {
+  border: 1px solid #e2e8f0;
+}
+
+body.default-theme #jsonEditor:focus,
+body.default-theme #dataEditor:focus,
+body.default-theme #import-markdown-source:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+body.default-theme .CodeMirror {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+body.default-theme .CodeMirror-focused {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+body.default-theme #markdownPreview,
+body.default-theme #markdownPreview * {
+  color: #f8f8f2 !important;
+  background: #23241f !important;
+  border: none;
+}
+
+body.default-theme .resize-bar {
+  background: #e2e8f0;
+  box-shadow: none;
+}
+
+body.default-theme .resize-bar:hover {
+  background: #3b82f6;
+  box-shadow: none;
+}
+
+body.default-theme .resize-bar::before {
+  content: '';
+  width: 2px;
+  height: 40px;
+  background-color: #cbd5e1;
+  border-radius: 1px;
+}
+
+body.default-theme .resize-bar:hover::before {
+  background-color: #3b82f6;
+}
+
+body.default-theme .description-container {
+  background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+  border: none;
+  color: white;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+body.default-theme .description-container:focus {
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+body.default-theme .collapse-button {
+  background: none;
+  border: none;
+  color: white;
+}
+
+body.default-theme .collapse-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-color: transparent;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+body.default-theme .description-content h2 {
+  color: white;
+  text-transform: none;
+  letter-spacing: normal;
+  text-shadow: none;
+}
+
+body.default-theme .description-content h2::before {
+  display: none;
+}
+
+body.default-theme .description-content p {
+  color: rgba(255, 255, 255, 0.9);
+  font-family: inherit;
+}
+
+body.default-theme .documentation-panel {
+  background: #ffffff;
+  border-left: 1px solid #e2e8f0;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+}
+
+body.default-theme .documentation-header {
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+body.default-theme .documentation-header h2 {
+  color: #1e293b;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+body.default-theme .close-button {
+  background: none;
+  border: none;
+  color: #1e293b;
+}
+
+body.default-theme .close-button:hover {
+  background: #f1f5f9;
+  color: #3b82f6;
+  border-color: #3b82f6;
+  box-shadow: none;
+}
+
+body.default-theme .documentation-content {
+  color: #1e293b;
+  font-family: inherit;
+}
+
+body.default-theme .documentation-content h1,
+body.default-theme .documentation-content h2,
+body.default-theme .documentation-content h3 {
+  color: #1e293b;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+body.default-theme .documentation-content p {
+  color: #475569;
+}
+
+body.default-theme .documentation-content code {
+  background: #f1f5f9;
+  color: #3b82f6;
+  border: none;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+body.default-theme .documentation-content pre {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+}
+
+body.default-theme .documentation-content pre code {
+  color: #1e293b;
+}
+
+body.default-theme ::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+body.default-theme ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+}
+
+body.default-theme ::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
