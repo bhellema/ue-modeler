@@ -13,6 +13,10 @@
     "fields": [
       {
         "component": "text",
+        "name": "classes"
+      },
+      {
+        "component": "text",
         "name": "image"
       },
       {
@@ -38,10 +42,6 @@
       {
         "component": "text",
         "name": "author_pictureAlt"
-      },
-      {
-        "component": "text",
-        "name": "classes"
       }
     ]
   }

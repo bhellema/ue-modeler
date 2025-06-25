@@ -137,19 +137,12 @@ function generateTable(models) {
 
   // for each model in the models array, add a row to the table
   models.slice(1).forEach(model => {
-    const fields = groupModelFields(model);
-    html += '  <tr>\n';
-
-    // if the fields array contains a field with a name of "classes" then add it to the td cell
-    const classes = model.fields.find((field) => field.name === 'classes');
-    if (classes) {
-      html += `<td>${model.id},${classes.value}</td>\n`;
-    }
+    const fields = groupModelFields(model, true);
 
     fields.forEach(fieldGrouping => {
       html += '    <td>\n';
       fieldGrouping.fields.forEach((field, index) => {
-        html += `<p>${renderField(field)}</p>`;
+        html += `<p>${renderField(field, model)}</p>`;
         if (index < fieldGrouping.fields.length - 1) {
           html += '</p>';
         }
@@ -166,8 +159,13 @@ function generateTable(models) {
   return html;
 }
 
-function renderField(field) {
+function renderField(field, model) {
   let html = '';
+
+  // if the fields array contains a field with a name of "classes" then add it to the td cell
+  if (field.name === 'classes') {
+    html += `${model.id},${field.value}`;
+  }
 
   html = headingField(field, html);
   html = imageField(field, html);
