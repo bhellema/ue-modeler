@@ -39,13 +39,14 @@ const markdownPreview = CodeMirror.fromTextArea(document.getElementById('import-
 
 markdownPreview.setSize('100%', '100%');
 
-function groupModelFields(model) {
+function groupModelFields(model, isChild = false) {
   const fields = [];
 
   const suffixes = ['Alt', 'MimeType', 'Type', 'Text', 'Title'];
 
   model.fields
-    .filter((field) => field.name !== 'classes')
+    // for container items, the classes field is rendered
+    .filter((field) => isChild || field.name !== 'classes')
     .forEach((field) => {
       if (field.name.includes('_')) {
         const groupName = field.name.split('_')[0];
@@ -107,7 +108,7 @@ function generateTable(models) {
   const primaryModelId = primaryModel.id.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
 
   // find the max number of field in the primary model or child models
-  const maxFields = Math.max(...models.map(model => groupModelFields(model).length));
+  const maxFields = Math.max(...models.map((model, index) => groupModelFields(model, index > 0).length));
 
   // Add header row
   html += '  <tr>\n';
@@ -142,7 +143,7 @@ function generateTable(models) {
     // if the fields array contains a field with a name of "classes" then add it to the td cell
     const classes = model.fields.find((field) => field.name === 'classes');
     if (classes) {
-      html += `<td>${model.id} ${classes.value}</td>\n`;
+      html += `<td>${model.id},${classes.value}</td>\n`;
     }
 
     fields.forEach(fieldGrouping => {
