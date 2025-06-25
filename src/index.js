@@ -171,6 +171,31 @@ function handleWindowResize() {
 // Add window resize event listener
 window.addEventListener('resize', handleWindowResize);
 
+// Theme switching functionality
+const themeSwitcher = document.querySelector('.theme-switcher');
+let isMatrixTheme = true; // Start with Matrix theme
+
+// Load saved theme preference
+const savedTheme = localStorage.getItem('ue-modeler-theme');
+if (savedTheme === 'default') {
+  isMatrixTheme = false;
+  document.body.classList.add('default-theme');
+}
+
+function toggleTheme() {
+  isMatrixTheme = !isMatrixTheme;
+
+  if (isMatrixTheme) {
+    document.body.classList.remove('default-theme');
+    localStorage.setItem('ue-modeler-theme', 'matrix');
+  } else {
+    document.body.classList.add('default-theme');
+    localStorage.setItem('ue-modeler-theme', 'default');
+  }
+}
+
+themeSwitcher.addEventListener('click', toggleTheme);
+
 // dynamically add a button for each model
 Object.keys(modelData).forEach(model => {
   const button = document.createElement('button');
