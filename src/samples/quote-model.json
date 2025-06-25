@@ -1,0 +1,15 @@
+[
+  {
+    "id": "quote",
+    "fields": [
+      {
+        "component": "richtext",
+        "name": "quotation"
+      },
+      {
+        "component": "richtext",
+        "name": "attribution"
+      }
+    ]
+  }
+] 

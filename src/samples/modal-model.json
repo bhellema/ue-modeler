@@ -4,14 +4,12 @@
     "fields": [
       {
         "component": "aem-content",
-        "name": "link",
-        "value": "https://www.adobe.com"
+        "name": "link"
       },
       {
         "component": "text",
-        "name": "linkText",
-        "value": "Adobe"
+        "name": "linkText"
       }
     ]
   }
-]
+] 

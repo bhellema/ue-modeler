@@ -1,0 +1,10 @@
+{
+  "classes": "big",
+  "image": "https://www.mydomain.jpeg",
+  "imageAlt": "Man with a dog",
+  "details": "Walk your dog every day",
+  "author_name": "Steve Monroe",
+  "author_position": "Sr. Dog Walker",
+  "author_picture": "https://www.mydomain/headhost.jpeg",
+  "author_pictureAlt": "Steve"
+} 

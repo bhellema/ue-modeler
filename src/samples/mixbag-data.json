@@ -1,0 +1,15 @@
+{
+  "samecell_heading": "Cell 1",
+  "samecell_value": "Cell 1 - Next Line",
+  "samecell_valueType": "h2",
+  "sometext": "Just some text that goes in here<b>foo</b> bar.",
+  "title": "Rock'n Roll Plush",
+  "titleType": "h2",
+  "description": "Description Goes here",
+  "link": "https://www.google.com",
+  "linkText": "Adobe",
+  "linkType": "secondary",
+  "image": "https://www.mydomain.jpeg",
+  "imageAlt": "Hero image",
+  "secondimage": "https://www.mydomain2.jpeg"
+} 

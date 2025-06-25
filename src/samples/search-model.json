@@ -1,0 +1,28 @@
+[
+  {
+    "id": "search",
+    "fields": [
+      {
+        "component": "text",
+        "name": "index"
+      },
+      {
+        "component": "multiselect",
+        "name": "classes",
+        "label": "Options",
+        "valueType": "string",
+        "options": [
+          {
+            "name": "Search Type",
+            "children": [
+              {
+                "name": "Minimal",
+                "value": "minimal"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+] 
